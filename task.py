@@ -36,22 +36,65 @@ class TaskManager:
             self.tasks[task_number-1].mark_completed()
             print("Task marked as completed.")
         else:
-            print("Invalid Task Number.")    
+            print("Invalid Task Number.")  
+            
+    def save_tasks(self):
+        with open("task.txt","w")as file:
+            for task in self.tasks:
+                line=f"{task.title}|{task.deadline}|{task.priority}|{task.completed}\n"
+                file.write(line)
 
-task1=Task("Math Assignment","15 Jan","High")
-task2=Task("DSA Practice","Daily","Medium")   
+    def load_tasks(self):
+        
+        try:
+            with open("task.txt","r")as file:
+                for line in file:
+                    title,deadline,priority,completed=line.strip().split("|")
+                    task=Task(title,deadline,priority)
+                    task.completed=completed=="True"
+                    self.tasks.append(task)
+        except FileNotFoundError:
+            print("No previous tasks found.")
 
-manager=TaskManager()
+def main():
+    
+    manager=TaskManager()
+    manager.load_tasks()
 
-manager.add_task(task1)
-manager.add_task(task2)
-#task1.display()
-#task2.display()        
-manager.view_tasks()
+    while True:
+        print("\nStudent Task Tracker")
+        print("1.Add Task")
+        print("2.View Tasks")
+        print("3.Mark Task as Completed")
+        print("4.Exit")
 
-manager.complete_task(1)
+        choice=input("Enter your choice:")
+        if choice=="1":
+            title=input("Enter task title:")
+            deadline=input("Enter deadline:")
+            priority=input("Enter priority(Low/Medium/High):")
 
-manager.view_tasks()
+            task=Task(title,deadline,priority)
+            manager.add_task(task)
+            print("Task added succesfully!")
 
-#task1.mark_completed()
-#task1.display()
+        elif choice=="2":
+            manager.view_tasks()
+
+        elif choice=="3":
+            manager.view_tasks()
+            number=int(input("Enter task number to be marked completed:"))
+            manager.complete_task(number)
+
+        elif choice=="4":
+            manager.save_tasks()
+            print("Tasks saved.Exiting Task Tracker...Goodbye!")
+            break
+
+        else:
+            print("Invalid choice.Please try again.")
+
+
+
+if __name__=="__main__":
+    main()
