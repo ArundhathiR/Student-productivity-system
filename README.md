@@ -15,6 +15,7 @@
 2. Navigate to the project directory
 3. Run the main Python program:
    ```bash
-   python task.py```
+   python task.py
+   ```
 4. Choose options from the displayed menu to add, view, or complete tasks
 

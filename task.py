@@ -28,8 +28,37 @@ class TaskManager:
             print("No Tasks Available")
             return
         for index,task in enumerate(self.tasks,start=1):
-            print(f"Task:{index}:")
-            task.display()
+            status="Completed" if task.completed else "Pending"
+            print(f"{index}.{task.title} | Deadline:{task.deadline} | "
+                  f"Priority:{task.priority} | Status:{status}")
+
+    def view_tasks_by_status(self,completed):
+        filtered_tasks=[task for task in self.tasks if task.completed == completed]
+        if not filtered_tasks:
+            print("No matching tasks found.")
+            return
+
+        for index,task in enumerate(filtered_tasks,start=1):
+            status="Completed" if task.completed else "Pending"
+            print(f"{index}.{task.title}|Deadline:{task.deadline}|"
+                  f"Priority:{task.priority}|Status:{status}")      
+
+    def show_productivity_insights(self):
+        total=len(self.tasks)
+        completed=sum(task.completed for task in self.tasks)
+        pending=total-completed
+
+        high_priority_pending=sum(1 for task in self.tasks if task.priority.lower()=="high" and not task.completed)
+
+        print("\nProductivity Insights:")
+        print(f"Total tasks: {total}")
+        print(f"Completed tasks: {completed}")
+        print(f"Pending tasks: {pending}")
+
+        if high_priority_pending>0:
+            print(f" !! You have {high_priority_pending} high-priority tasks PENDING")
+
+
 
     def complete_task(self,task_number):
         if 1<=task_number<=len(self.tasks):
@@ -66,7 +95,10 @@ def main():
         print("1.Add Task")
         print("2.View Tasks")
         print("3.Mark Task as Completed")
-        print("4.Exit")
+        print("4.View Pending Tasks")
+        print("5.View Completed Tasks")
+        print("6.View Productivity Insights")
+        print("7.Exit")
 
         choice=input("Enter your choice:")
         if choice=="1":
@@ -87,6 +119,15 @@ def main():
             manager.complete_task(number)
 
         elif choice=="4":
+            manager.view_tasks_by_status(False)
+        
+        elif choice=="5":
+            manager.view_tasks_by_status(True)
+
+        elif choice=="6":
+            manager.show_productivity_insights()
+
+        elif choice=="7":
             manager.save_tasks()
             print("Tasks saved.Exiting Task Tracker...Goodbye!")
             break
