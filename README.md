@@ -8,6 +8,9 @@
 - Add, view, and mark tasks as completed
 - Persistent storage using file handling
 - Automatic task loading on program startup
+- Filter tasks by pending or completed status
+- Display productivity insights (total, completed, pending tasks)
+- Highlight high-priority pending tasks
 
 ## How to Run
 
