@@ -1,21 +1,4 @@
-class Task:
-    def __init__(self,title,deadline,priority):
-        self.title=title 
-        self.deadline=deadline
-        self.priority=priority
-        self.completed=False
-
-    def mark_completed(self):
-        self.completed=True
-
-    def display(self):
-        status="Completed" if self.completed else "Pending"
-        print(f"Task:{self.title}")
-        print(f"Deadline: {self.deadline}")        
-        print(f"Priority: {self.priority}")        
-        print(f"Status: {status}")   
-        print("-"*20)  
-
+from task import Task
 class TaskManager:
     def __init__(self):
         self.tasks=[]
@@ -84,58 +67,3 @@ class TaskManager:
                     self.tasks.append(task)
         except FileNotFoundError:
             print("No previous tasks found.")
-
-def main():
-    
-    manager=TaskManager()
-    manager.load_tasks()
-
-    while True:
-        print("\nStudent Task Tracker")
-        print("1.Add Task")
-        print("2.View Tasks")
-        print("3.Mark Task as Completed")
-        print("4.View Pending Tasks")
-        print("5.View Completed Tasks")
-        print("6.View Productivity Insights")
-        print("7.Exit")
-
-        choice=input("Enter your choice:")
-        if choice=="1":
-            title=input("Enter task title:")
-            deadline=input("Enter deadline:")
-            priority=input("Enter priority(Low/Medium/High):")
-
-            task=Task(title,deadline,priority)
-            manager.add_task(task)
-            print("Task added succesfully!")
-
-        elif choice=="2":
-            manager.view_tasks()
-
-        elif choice=="3":
-            manager.view_tasks()
-            number=int(input("Enter task number to be marked completed:"))
-            manager.complete_task(number)
-
-        elif choice=="4":
-            manager.view_tasks_by_status(False)
-        
-        elif choice=="5":
-            manager.view_tasks_by_status(True)
-
-        elif choice=="6":
-            manager.show_productivity_insights()
-
-        elif choice=="7":
-            manager.save_tasks()
-            print("Tasks saved.Exiting Task Tracker...Goodbye!")
-            break
-
-        else:
-            print("Invalid choice.Please try again.")
-
-
-
-if __name__=="__main__":
-    main()
